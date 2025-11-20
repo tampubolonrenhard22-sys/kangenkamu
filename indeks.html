@@ -1,0 +1,335 @@
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+    <meta charset="UTF-8">
+    <title>Untuk Kamu ❤️</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+    /* ====== BASE RESET ====== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* ====== RESPONSIVE BODY ====== */
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url('https://i.imgur.com/LT77Zf3.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* CENTER CONTENT */
+    .center {
+        text-align: center;
+        color: white;
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* BOX RESPONSIF */
+    .box {
+        background: rgba(0,0,0,0.45);
+        padding: 20px;
+        border-radius: 20px;
+        width: 92%;
+        max-width: 380px;
+        margin: auto;
+        color: white;
+    }
+
+    /* BUTTON */
+    button {
+        padding: 12px 20px;
+        margin: 8px 5px;
+        font-size: 17px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        background: rgba(255,255,255,0.85);
+        transition: .3s;
+        width: 95%;
+        max-width: 260px;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    /* KEYBOARD BUTTONS */
+    .keypad button {
+        width: 28%;
+        max-width: 90px;
+        height: 55px;
+        margin: 6px 1%;
+        font-size: 22px;
+    }
+
+    /* DELETE BUTTON */
+    .delete-btn {
+        background: #ff6b6b !important;
+        color: white;
+    }
+
+    /* ENVELOPE IMAGE RESPONSIVE */
+    #envelope {
+        width: 60%;
+        max-width: 260px;
+    }
+
+    /* FALLING HEARTS */
+    .heart {
+        position: fixed;
+        top: -10px;
+        animation: fall linear forwards;
+        opacity: 0.85;
+        pointer-events: none;
+        z-index: 999999;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh) translateX(var(--drift));
+            opacity: 0;
+        }
+    }
+
+    /* LOADING HEART */
+    .love-loading {
+        font-size: 55px;
+        animation: pop 0.6s infinite alternate;
+    }
+
+    @keyframes pop {
+        from { transform: scale(1); opacity: 0.5; }
+        to { transform: scale(1.4); opacity: 1; }
+    }
+
+    </style>
+    </head>
+
+    <body>
+    <!-- Musik Latar Belakang -->
+    <audio id="bgm" autoplay>
+        <source src="https://files.catbox.moe/y6gdj8.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="clickSound" src="https://files.catbox.moe/jrz98p.mp3"></audio>
+
+    <div id="content" class="center">
+        <img id="envelope" src="https://i.imgur.com/HdXB3aw.png"><br><br>
+        <button onclick="openEnvelope(); playMusic();">Buka 💌</button>
+    </div>
+
+    <script>
+
+    function playClick() {
+        const sound = document.getElementById("clickSound");
+        sound.currentTime = 0;
+        sound.play();
+    }
+
+    function playMusic() {
+        const bgm = document.getElementById("bgm");
+        bgm.play();
+    }
+
+    /* ====== STEP 1: BUKA AMLOP ====== */
+    function openEnvelope() {
+        playClick();
+        pass = "";
+
+        document.getElementById("content").innerHTML = `
+            <div class='box'>
+                <h2>Halo sayang ❤️</h2>
+                <p>Masukkan tanggal lahir cowo kamu yaa~</p><br>
+
+                <div id='screen' style="font-size:28px; margin:10px; letter-spacing:2px;"></div>
+
+                <div class='keypad'>
+                    ${[1,2,3,4,5,6,7,8,9,0].map(n => 
+                        `<button onclick='pressKey(${n})'>${n}</button>`
+                    ).join('')}
+                    <button class="delete-btn" onclick="deleteLast()">Hapus</button>
+                </div>
+            </div>
+        `;
+    }
+
+    let pass = "";
+    const correctPass = "30072004";
+
+    /* HAPUS satu angka */
+    function deleteLast() {
+        playClick();
+        pass = pass.slice(0, -1);
+        document.getElementById("screen").innerText = pass;
+    }
+
+    /* INPUT KEYBOARD */
+    function pressKey(num) {
+        playClick();
+
+        pass += num;
+        document.getElementById("screen").innerText = pass;
+
+        if (pass.length === correctPass.length) {
+            setTimeout(() => {
+                if (pass === correctPass) {
+                    askBoyfriend();
+                } else {
+                    wrongPass();
+                }
+            }, 300);
+        }
+    }
+
+    function wrongPass() {
+        playClick();
+        document.getElementById("content").innerHTML = `
+            <div class='box'>
+                <h2>Salah sayang 😭</h2>
+                <button onclick='retryPass()'>Coba lagi</button>
+                <button onclick='rememberHint()'>Minta hint</button>
+            </div>
+        `;
+    }
+
+    function retryPass() {
+        playClick();
+        pass = "";
+        openEnvelope();
+    }
+
+    function rememberHint() {
+        playClick();
+        window.location.href = "https://wa.me/6281371414093?text=Sayang%20boleh%20dong%20kasih%20hint%20tanggal%20lahir%20🥺";
+    }
+
+    /* ====== STEP 2: PERTANYAAN 'SIAPA PACAR KAMU' ====== */
+    function askBoyfriend() {
+        playClick();
+        document.getElementById("content").innerHTML = `
+            <div class='box'>
+                <h2>Siapa pacar kamu sekarang? ❤️</h2>
+
+                <input id="answer" placeholder="ketik di sini..." 
+                    style="padding:12px; width:95%; border-radius:10px; border:none; margin-top:10px; font-size:20px;"
+                    autocomplete="off">
+
+                <br><br>
+                <button id="btnContinue">Lanjut</button>
+                <button class="delete-btn" onclick="clearName()">Hapus</button>
+                <div id="errContainer"></div>
+            </div>
+        `;
+
+        document.getElementById("btnContinue").addEventListener('click', checkBoyfriend);
+    }
+
+    function clearName() {
+        playClick();
+        const inp = document.getElementById("answer");
+        if (inp) inp.value = "";
+        const oldErr = document.getElementById("errContainer");
+        if (oldErr) oldErr.innerHTML = "";
+    }
+
+    /* NORMALISASI INPUT */
+    function normalizeName(str) {
+        if (!str) return "";
+        let s = str.trim().replace(/\s+/g, " ");
+        s = s.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
+        s = s.replace(/[^\p{L}\s]/gu, "");
+        return s.toLowerCase().trim();
+    }
+
+    function checkBoyfriend() {
+        playClick();
+
+        const inp = document.getElementById("answer");
+        const errContainer = document.getElementById("errContainer");
+        const ans = normalizeName(inp.value || "");
+        const correctNameNormalized = normalizeName("Renhard Tuah Tampubolon");
+
+        if (ans === correctNameNormalized) {
+            errContainer.innerHTML = "";
+            finalMessage();
+        } else {
+            errContainer.innerHTML = `<p style="color:red; margin-top:10px;">Jawaban salah sayang 😭</p>`;
+        }
+    }
+    /* ====== STEP 3 — FINAL MESSAGE ====== */
+
+    function finalMessage() {
+        playClick();
+        document.getElementById("content").innerHTML = `
+            <div class='box' style="font-size:18px;">
+
+                <p>Sekarang aku cuma mau bilang ❤️</p>
+                <br><br>
+
+                <p>Menurut biologi kamu adalah 7% darah,</p>
+                <p>Menurut kimia kamu adalah 70% air,</p>
+                <p>Menurut fisika kamu adalah 99% ruang hampa.</p>
+                <br>
+
+                <p>Tapi menurut aku, kamu adalah 100% kesayangankuuu ❤️</p>
+                <br>
+
+                <p>Love you forever sayangku tersayang,  
+                Selalu jaga kesehatan kamu yaa ❤️</p>
+
+                <br><br>
+                <button onclick="replyWA()">Balas ❤️</button>
+            </div>
+        `;
+    }
+
+    function replyWA() {
+        playClick();
+        window.location.href = "https://wa.me/6281371414093?text=Sayang%20aku%20udah%20baca%20pesannya%20❤️";
+    }
+
+
+    /* ====== ANIMASI LOVE JATUH ====== */
+
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (18 + Math.random() * 25) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        heart.style.setProperty('--drift', (Math.random() * 100 - 50) + "px");
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 300);
+
+
+    /* ====== ULANG LAGU OTOMATIS ====== */
+
+    const bgm = document.getElementById("bgm");
+    bgm.addEventListener("ended", () => {
+        bgm.currentTime = 0;
+        bgm.play();
+    });
+
+    </script>
+
+    </body>
+    </html>
